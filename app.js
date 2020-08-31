@@ -9,7 +9,9 @@ const tripRoute = require('./routes/trip')
 
 const app = express();
 
-app.use('/trip', tripRoute)
+app.use(bodyParser.json())
+
+app.use('/trips', tripRoute)
 
 sequelize
   .sync()

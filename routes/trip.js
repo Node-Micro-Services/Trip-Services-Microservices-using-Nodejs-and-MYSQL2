@@ -6,19 +6,19 @@ const tripController = require('../controller/trip');
 
 const router = express.Router();
 
-// /admin/add-product => GET
-router.get('/add-product', tripController.getAddProduct);
+// /trip => GET
+// router.get('/add-product', tripController.getAddProduct);
 
-// /admin/products => GET
-router.get('/products', tripController.getProducts);
+// // /admin/products => GET
+// router.get('/products', tripController.getProducts);
 
-// /admin/add-product => POST
-router.post('/add-product', tripController.postAddProduct);
+// /trip/ => POST
+router.post('/posts', tripController.postAddProduct);
 
-router.get('/edit-product/:productId', tripController.getEditProduct);
+// router.get('/edit-product/:productId', tripController.getEditProduct);
 
-router.post('/edit-product', tripController.postEditProduct);
+// router.post('/edit-product', tripController.postEditProduct);
 
-router.post('/delete-product', tripController.postDeleteProduct);
+// router.post('/delete-product', tripController.postDeleteProduct);
 
 module.exports = router;
