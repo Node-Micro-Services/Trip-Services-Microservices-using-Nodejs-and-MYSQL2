@@ -2,7 +2,7 @@ const Sequelize = require('sequelize').Sequelize
 
 const sequelize = require('../util/database')
 
-const TripMedia = sequelize.define('tripbrochure', {
+const TripMedia = sequelize.define('tripmedia', {
     tripId: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -15,4 +15,4 @@ const TripMedia = sequelize.define('tripbrochure', {
     }
 })
 
-module.exports = TripBrochure
+module.exports = TripMedia

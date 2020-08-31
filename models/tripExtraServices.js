@@ -15,4 +15,4 @@ const TripExtraService = sequelize.define('tripextraservice', {
     }
 })
 
-module.exports = TripBrochure
+module.exports = TripExtraService
