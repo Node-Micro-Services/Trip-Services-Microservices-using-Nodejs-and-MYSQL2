@@ -10,7 +10,7 @@ const TripMedia = sequelize.define('tripmedia', {
         autoIncrement: true
     },
     brochureURL: {
-        type: Sequelize.toString,
+        type: Sequelize.STRING,
         allowNull: false
     }
 })
