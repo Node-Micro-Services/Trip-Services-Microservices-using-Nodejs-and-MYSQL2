@@ -9,7 +9,7 @@ const router = express.Router();
 // /trip => GET
 // router.get('/add-product', tripController.getAddProduct);
 
-// // /admin/products => GET
+// /admin/products => GET
 // router.get('/products', tripController.getProducts);
 
 // /trip/ => POST

@@ -13,18 +13,10 @@ const TripMedia = require('../models/tripMedia')
 //   };
   
   exports.postAddProduct = (req, res, next) => {
-      console.log(req.body)
-
-      res.status(200).json({
-        "Trip Service Response Payload":{
-          "status": 200,
-          "data": {
-            "tripId": 4356720
-          },
-          "error": []
-        }
-      })
-
+    //   console.log(req.body.userId)
+    const userId = req.body.userId
+    const locationId = req.body.locationId
+    const trip = req.body.trip
     // const title = req.body.title;
     // const imageUrl = req.body.imageUrl;
     // const price = req.body.price;
@@ -42,6 +34,17 @@ const TripMedia = require('../models/tripMedia')
     //   .catch(err => {
     //     console.log(err);
     //   });
+
+        
+      res.status(200).json({
+        "Trip Service Response Payload":{
+          "status": 201,
+          "data": {
+            "tripId": 4356720
+          },
+          "error": []
+        }
+      })
      };
   
 //   exports.getEditProduct = (req, res, next) => {

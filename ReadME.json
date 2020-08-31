@@ -1,5 +1,4 @@
 {
-"Trip Service Request Payload": {
     "userId": "55UMgZqCcoMZv804AkHgtWhB95n1",
     "locationId": "16",
     "trip": {
@@ -34,6 +33,4 @@
         "2131296390",
         "2131296395"
     ]
-}
-
 }
