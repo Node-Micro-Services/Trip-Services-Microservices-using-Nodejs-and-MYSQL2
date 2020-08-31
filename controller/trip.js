@@ -1,0 +1,5 @@
+const TripDetails = require('../models/tripdetails')
+const TripBrochure = require('../models/tripBrochure')
+const ServiceProviderTrip = require('../models/serviceProviderTrip')
+const TripExtraServices = require('../models/tripExtraServices')
+const TripMedia = require('../models/tripMedia')

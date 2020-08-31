@@ -1,7 +1,6 @@
 const Sequelize = require("sequelize").Sequelize;
 
 const sequelize = require("../util/database");
-const sequelize = require("../util/database");
 
 const TripDeails = sequelize.define("tripdetails", {
   tripID: {
