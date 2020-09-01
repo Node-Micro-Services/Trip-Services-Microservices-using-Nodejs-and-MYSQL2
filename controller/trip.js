@@ -1,8 +1,8 @@
-const TripDetails = require('../models/tripdetails')
-const TripBrochure = require('../models/tripBrochure')
-const ServiceProviderTrip = require('../models/serviceProviderTrip')
-const TripExtraServices = require('../models/tripExtraServices')
-const TripMedia = require('../models/tripMedia')
+const TripDetails = require("../models/tripdetails");
+const TripBrochure = require("../models/tripBrochure");
+const ServiceProviderTrip = require("../models/serviceProviderTrip");
+const TripExtraServices = require("../models/tripExtraServices");
+const TripMedia = require("../models/tripMedia");
 
 // exports.getAddProduct = (req, res, next) => {
 //     res.render('admin/edit-product', {
@@ -11,42 +11,58 @@ const TripMedia = require('../models/tripMedia')
 //       editing: false
 //     });
 //   };
-  
-  exports.postAddProduct = (req, res, next) => {
-    //   console.log(req.body.userId)
-    const userId = req.body.userId
-    const locationId = req.body.locationId
-    const trip = req.body.trip
-    // const title = req.body.title;
-    // const imageUrl = req.body.imageUrl;
-    // const price = req.body.price;
-    // const description = req.body.description;
-    // Product.create({
-    //   title: title,
-    //   price: price,
-    //   imageUrl: imageUrl,
-    //   description: description
-    // })
-    //   .then(result => {
-    //     // console.log(result);
-    //     console.log('Created Product');
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
 
-        
+exports.postAddProduct = (req, res, next) => {
+  const userId = req.body.userId;
+  const locationId = req.body.locationId;
+
+  const tripServiceId = req.body.trip.tripServiceId;
+  const subject = req.body.trip.subject;
+  const description = req.body.trip.description;
+  const tripDays = req.body.trip.tripDays;
+  const tripNights = req.body.trip.tripNights;
+  const tripID = undefined
+  const err = []
+
+  TripDetails.create({
+    tripServiceID: tripServiceId,
+    tripDaysNum: tripDays,
+    tripNightsNum: tripNights,
+    subject: subject,
+    description: description
+  })
+    .then((result) => {
       res.status(200).json({
-        "Trip Service Response Payload":{
-          "status": 201,
-          "data": {
-            "tripId": 4356720
+        "Trip Service Response Payload": {
+          status: 201,
+          data: {
+            tripId: result.dataValues.tripID,
           },
-          "error": []
-        }
+          error: [],
+        },
       })
-     };
+    })
+    .catch((error) => {
+      res.status(500).json({
+        "Trip Service Response Payload": {
+          status: 201,
+          data: {
+            tripId: 0,
+          },
+          error: error,
+        },
+      })
+    });
+
+  // brochure code here
+
+  //media code here
+
+  //extraServices code here ...
   
+
+};
+
 //   exports.getEditProduct = (req, res, next) => {
 //     const editMode = req.query.edit;
 //     if (!editMode) {
@@ -65,7 +81,7 @@ const TripMedia = require('../models/tripMedia')
 //       });
 //     });
 //   };
-  
+
 //   exports.postEditProduct = (req, res, next) => {
 //     const prodId = req.body.productId;
 //     const updatedTitle = req.body.title;
@@ -82,7 +98,7 @@ const TripMedia = require('../models/tripMedia')
 //     updatedProduct.save();
 //     res.redirect('/admin/products');
 //   };
-  
+
 //   exports.getProducts = (req, res, next) => {
 //     Product.fetchAll(products => {
 //       res.render('admin/products', {
@@ -92,10 +108,9 @@ const TripMedia = require('../models/tripMedia')
 //       });
 //     });
 //   };
-  
+
 //   exports.postDeleteProduct = (req, res, next) => {
 //     const prodId = req.body.productId;
 //     Product.deleteById(prodId);
 //     res.redirect('/admin/products');
 //   };
-  
