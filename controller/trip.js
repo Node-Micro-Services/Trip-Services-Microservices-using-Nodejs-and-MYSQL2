@@ -21,8 +21,7 @@ exports.postAddProduct = (req, res, next) => {
   const description = req.body.trip.description;
   const tripDays = req.body.trip.tripDays;
   const tripNights = req.body.trip.tripNights;
-  const tripID = undefined
-  const err = []
+  var tripID = undefined
 
   TripDetails.create({
     tripServiceID: tripServiceId,
@@ -32,35 +31,35 @@ exports.postAddProduct = (req, res, next) => {
     description: description
   })
     .then((result) => {
+      tripID = result.dataValues.tripID
       res.status(200).json({
         "Trip Service Response Payload": {
           status: 201,
           data: {
-            tripId: result.dataValues.tripID,
+            tripId: tripID,
           },
           error: [],
         },
       })
     })
-    .catch((error) => {
-      res.status(500).json({
+    .catch((err) => {
+      console.log(err)
+      res.status(200).json({
         "Trip Service Response Payload": {
-          status: 201,
+          status: 500,
           data: {
-            tripId: 0,
+            tripId: tripID,
           },
-          error: error,
+          error: err,
         },
       })
     });
-
   // brochure code here
 
   //media code here
 
   //extraServices code here ...
   
-
 };
 
 //   exports.getEditProduct = (req, res, next) => {

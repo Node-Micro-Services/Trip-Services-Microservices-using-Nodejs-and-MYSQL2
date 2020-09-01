@@ -3,7 +3,7 @@ const Sequelize = require('sequelize').Sequelize
 const sequelize = require('../util/database')
 
 const TripMedia = sequelize.define('tripmedia', {
-    tripId: {
+    tripID: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
