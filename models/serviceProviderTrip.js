@@ -3,17 +3,17 @@ const Sequelize = require("sequelize").Sequelize
 const sequelize = require('../util/database')
 
 const ServiceProviderTrip = sequelize.define('serviceprovidertrip', {
-    userId: {
+    tripID: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
         allowNull: false,
+        primaryKey: true,
         autoIncrement: true
     },
-    locationId: {
-        type: Sequelize.INTEGER,
+    userId: {
+        type: Sequelize.STRING,
         allowNull: false,
     },
-    tripId: {
+    locationId: {
         type: Sequelize.INTEGER,
         allowNull: false,
     }

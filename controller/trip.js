@@ -13,53 +13,98 @@ const TripMedia = require("../models/tripMedia");
 //   };
 
 exports.postAddProduct = (req, res, next) => {
-  const userId = req.body.userId;
-  const locationId = req.body.locationId;
-
-  const tripServiceId = req.body.trip.tripServiceId;
-  const subject = req.body.trip.subject;
-  const description = req.body.trip.description;
-  const tripDays = req.body.trip.tripDays;
-  const tripNights = req.body.trip.tripNights;
-  var tripID = undefined
-
-  TripDetails.create({
-    tripServiceID: tripServiceId,
-    tripDaysNum: tripDays,
-    tripNightsNum: tripNights,
-    subject: subject,
-    description: description
+  ServiceProviderTrip.create({
+    userId: req.body.userId,
+    locationId: req.body.locationId,
   })
     .then((result) => {
-      tripID = result.dataValues.tripID
+      const TripID = result.dataValues.tripID;
+      console.log(TripID)
+
+      //now creating the TripDetails Table
+      TripDetails.create({
+        tripID: TripID,
+        tripServiceID: req.body.trip.tripServiceId,
+        tripDaysNum: req.body.trip.tripDays,
+        tripNightsNum: req.body.trip.tripNights,
+        subject: req.body.trip.subject,
+        description: req.body.trip.description,
+      })
+        .then((result) => {
+          console.log('Trip Details Created')
+        })
+        .catch((err) => {
+          // add all the errors in an array
+        });
+      for(var obj in req.body.brochure){
+        TripBrochure.create({
+          tripID: TripID,
+          brochureURL: req.body.brochure[obj]
+        }).then(result=>{
+          //do something for the result
+        }).catch(err=>{
+          //do somethings for the error
+        })
+      }
+
+      for(var obj in req.body.media){
+        TripMedia.create({
+          tripID: TripID,
+          mediaURL: req.body.media[obj].mediaURL,
+          isImage:  req.body.media[obj].isImage,
+          caption: req.body.media[obj].caption
+        }).then(result=>{
+          //do something for the result
+        }).catch(err=>{
+          //do somethings for the error
+        })
+      }
+
+      for(var obj in req.body.extraServices){
+        TripExtraServices.create({
+          tripID: TripID,
+          mediaURL: req.body.extraServices[obj]
+        }).then(result=>{
+          //do for the error
+        })
+        .catch(err=>{
+          //do for the error
+        })
+      }
+
       res.status(200).json({
         "Trip Service Response Payload": {
           status: 201,
           data: {
-            tripId: tripID,
+            tripId: TripID,
           },
           error: [],
         },
-      })
+      });
+
     })
-    .catch((err) => {
-      console.log(err)
+    
+    .catch((error) => {
+      //do for the error
+      console.log(error)
+      //then wale ka code hai ye
       res.status(200).json({
         "Trip Service Response Payload": {
           status: 500,
           data: {
-            tripId: tripID,
+            tripId: 0,
           },
-          error: err,
+          error: [],
         },
-      })
+      });
+
     });
+
   // brochure code here
 
   //media code here
 
   //extraServices code here ...
-  
 };
 
 //   exports.getEditProduct = (req, res, next) => {

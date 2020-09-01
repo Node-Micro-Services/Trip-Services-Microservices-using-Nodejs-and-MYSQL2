@@ -5,9 +5,7 @@ const sequelize = require('../util/database')
 const TripExtraService = sequelize.define('tripextraservice', {
     tripID: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true
+        allowNull: false
     },
     mediaURL: {
         type: Sequelize.STRING,

@@ -5,7 +5,6 @@ const sequelize = require("../util/database");
 const TripDeails = sequelize.define("tripdetails", {
   tripID: {
     type: Sequelize.INTEGER,
-    autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
