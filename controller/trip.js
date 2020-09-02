@@ -1,3 +1,5 @@
+const chalk = require("chalk");
+
 const TripDetails = require("../models/tripdetails");
 const TripBrochure = require("../models/tripBrochure");
 const ServiceProviderTrip = require("../models/serviceProviderTrip");
@@ -12,6 +14,8 @@ const TripMedia = require("../models/tripMedia");
 //     });
 //   };
 
+var ERROR = [];
+
 exports.postAddProduct = (req, res, next) => {
   ServiceProviderTrip.create({
     userId: req.body.userId,
@@ -19,7 +23,7 @@ exports.postAddProduct = (req, res, next) => {
   })
     .then((result) => {
       const TripID = result.dataValues.tripID;
-      console.log(TripID)
+      console.log(chalk.green.inverse("Service Provider Trip"));
 
       //now creating the TripDetails Table
       TripDetails.create({
@@ -31,45 +35,57 @@ exports.postAddProduct = (req, res, next) => {
         description: req.body.trip.description,
       })
         .then((result) => {
-          console.log('Trip Details Created')
+          console.log(chalk.green.inverse("Trip Details Created"));
         })
-        .catch((err) => {
+        .catch((error) => {
           // add all the errors in an array
+          ERROR.push(String(error));
         });
-      for(var obj in req.body.brochure){
+      for (var obj in req.body.brochure) {
         TripBrochure.create({
           tripID: TripID,
-          brochureURL: req.body.brochure[obj]
-        }).then(result=>{
-          //do something for the result
-        }).catch(err=>{
-          //do somethings for the error
+          brochureURL: req.body.brochure[obj],
         })
+          .then((result) => {
+            //do something for the result
+            console.log(chalk.green.inverse("Trip Brochure"));
+          })
+          .catch((error) => {
+            //do somethings for the error
+            ERROR.push(String(error));
+          });
       }
 
-      for(var obj in req.body.media){
+      for (var obj in req.body.media) {
         TripMedia.create({
           tripID: TripID,
           mediaURL: req.body.media[obj].mediaURL,
-          isImage:  req.body.media[obj].isImage,
-          caption: req.body.media[obj].caption
-        }).then(result=>{
-          //do something for the result
-        }).catch(err=>{
-          //do somethings for the error
+          isImage: req.body.media[obj].isImage,
+          caption: req.body.media[obj].caption,
         })
+          .then((result) => {
+            //do something for the result
+            console.log(chalk.green.inverse("Trip Media"));
+          })
+          .catch((error) => {
+            //do somethings for the error
+            ERROR.push(String(error));
+          });
       }
 
-      for(var obj in req.body.extraServices){
+      for (var obj in req.body.extraServices) {
         TripExtraServices.create({
           tripID: TripID,
-          mediaURL: req.body.extraServices[obj]
-        }).then(result=>{
-          //do for the error
+          mediaURL: req.body.extraServices[obj],
         })
-        .catch(err=>{
-          //do for the error
-        })
+          .then((result) => {
+            //do for the result
+            console.log(chalk.green.inverse("Trip Extra Services"));
+          })
+          .catch((error) => {
+            //do for the error
+            ERROR.push(String(error));
+          });
       }
 
       res.status(200).json({
@@ -81,12 +97,12 @@ exports.postAddProduct = (req, res, next) => {
           error: [],
         },
       });
-
     })
-    
+
     .catch((error) => {
       //do for the error
-      console.log(error)
+      ERROR.push(String(error));
+      console.log(chalk.red(error));
       //then wale ka code hai ye
       res.status(200).json({
         "Trip Service Response Payload": {
@@ -94,10 +110,9 @@ exports.postAddProduct = (req, res, next) => {
           data: {
             tripId: 0,
           },
-          error: [],
+          error: ERROR,
         },
       });
-
     });
 
   // brochure code here

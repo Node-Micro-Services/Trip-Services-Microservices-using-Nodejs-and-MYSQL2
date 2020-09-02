@@ -1,16 +1,16 @@
-const Sequelize = require('sequelize').Sequelize
+const Sequelize = require("sequelize").Sequelize;
 
-const sequelize = require('../util/database')
+const sequelize = require("../util/database");
 
-const TripExtraService = sequelize.define('tripextraservice', {
-    tripID: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    },
-    mediaURL: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
-})
+const TripExtraService = sequelize.define("tripextraservice", {
+  tripID: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  mediaURL: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+});
 
-module.exports = TripExtraService
+module.exports = TripExtraService;

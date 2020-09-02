@@ -1,8 +1,8 @@
-const path = require('path');
+const path = require("path");
 
-const express = require('express');
+const express = require("express");
 
-const tripController = require('../controller/trip');
+const tripController = require("../controller/trip");
 
 const router = express.Router();
 
@@ -13,7 +13,7 @@ const router = express.Router();
 // router.get('/products', tripController.getProducts);
 
 // /trip/ => POST
-router.post('/posts', tripController.postAddProduct);
+router.post("/posts", tripController.postAddProduct);
 
 // router.get('/edit-product/:productId', tripController.getEditProduct);
 
