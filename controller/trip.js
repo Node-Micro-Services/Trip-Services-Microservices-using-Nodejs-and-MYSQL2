@@ -122,6 +122,24 @@ exports.postAddProduct = (req, res, next) => {
   //extraServices code here ...
 };
 
+exports.postGetProduct = (req, res, next) => {
+  const TripID = req.body.tripId
+  console.log(chalk.blueBright.inverse(TripID))
+  res.status(200).json({
+    "Get the Trip Details": {
+      status: 301,
+      data: {
+        tripId: TripID,
+      },
+      error: [],
+    },
+  });
+};
+
+exports.postDeleteProduct = (req, res, next) => {
+  
+};
+
 //   exports.getEditProduct = (req, res, next) => {
 //     const editMode = req.query.edit;
 //     if (!editMode) {

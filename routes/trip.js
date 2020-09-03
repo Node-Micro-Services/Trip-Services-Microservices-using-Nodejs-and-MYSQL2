@@ -14,6 +14,8 @@ const router = express.Router();
 
 // /trip/ => POST
 router.post("/posts", tripController.postAddProduct);
+router.post("/gets", tripController.postGetProduct);
+router.post("/deletes", tripController.postDeleteProduct);
 
 // router.get('/edit-product/:productId', tripController.getEditProduct);
 
