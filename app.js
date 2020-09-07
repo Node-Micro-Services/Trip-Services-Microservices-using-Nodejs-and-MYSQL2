@@ -17,6 +17,10 @@ const app = express();
 
 app.use(bodyParser.json());
 
+app.get('/', (req, res)=> {
+  res.send('Working Trip Services')
+})
+
 app.use("/trips", tripRoute);
 
 ServiceProviderTrip.hasMany(TripDetails, { foreignKey: "tripID" });
@@ -26,7 +30,7 @@ ServiceProviderTrip.hasMany(TripExtraServices, { foreignKey: "tripID" });
 
 sequelize
   // .sync({force: true})  ---> to overwrite the tables better say format all...
-  .sync()
+  .sync({force: true})
   .then((result) => {
     // console.log(result);
     app.listen(8080, () => {
