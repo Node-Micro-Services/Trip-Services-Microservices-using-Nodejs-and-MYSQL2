@@ -122,7 +122,7 @@ exports.postAddProduct = (req, res, next) => {
   //extraServices code here ...
 };
 
-exports.postGetProduct = (req, res, next) => {
+exports.postProduct = (req, res, next) => {
   const TripID = req.body.tripId
   console.log(chalk.blueBright.inverse(TripID))
   res.status(200).json({

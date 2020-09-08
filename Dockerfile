@@ -1,17 +1,10 @@
-FROM node:10-alpine
+FROM node:current-slim
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-
-WORKDIR /home/ndocker images
-
-COPY package*.json ./
-
-USER node
-
+WORKDIR /usr/src/app
+COPY package.json .
 RUN npm install
 
-COPY --chown=node:node . .
-
 EXPOSE 8080
+CMD [ "npm", "start" ]
 
-CMD [ "node", "app.js" ]
+COPY . .
