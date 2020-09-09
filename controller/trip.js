@@ -162,11 +162,11 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.patchProduct = (req, res, next) => {
-
+  
 };
 
 exports.deleteProduct = (req, res, next) => {
-  
+
 };
 
 //   exports.getEditProduct = (req, res, next) => {
