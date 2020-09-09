@@ -6,14 +6,6 @@ const ServiceProviderTrip = require("../models/serviceProviderTrip");
 const TripExtraServices = require("../models/tripExtraServices");
 const TripMedia = require("../models/tripMedia");
 
-// exports.getAddProduct = (req, res, next) => {
-//     res.render('admin/edit-product', {
-//       pageTitle: 'Add Product',
-//       path: '/admin/add-product',
-//       editing: false
-//     });
-//   };
-
 var ERROR = [];
 
 exports.postAddProduct = (req, res, next) => {
@@ -122,21 +114,58 @@ exports.postAddProduct = (req, res, next) => {
   //extraServices code here ...
 };
 
-exports.postProduct = (req, res, next) => {
-  const TripID = req.body.tripId
-  console.log(chalk.blueBright.inverse(TripID))
-  res.status(200).json({
-    "Get the Trip Details": {
-      status: 301,
-      data: {
-        tripId: TripID,
-      },
-      error: [],
-    },
-  });
+exports.getProduct = (req, res, next) => {
+  const TripID = req.body.tripId;
+  console.log(chalk.blueBright.inverse(TripID));
+
+  // const ResultSPT = async function start(){
+  //   await ServiceProviderTrip.findAll({ where: { tripID: TripID } })
+  // }
+
+  ServiceProviderTrip.findOne({ where: { tripID: TripID } })
+    .then((spt) => {
+      TripBrochure.findAll({ where: { tripID: TripID } })
+        .then((tb) => {
+          TripDetails.findAll({ where: { tripID: TripID } })
+            .then((td) => {
+              TripExtraServices.findAll({ where: { tripID: TripID } })
+                .then((tes) => {
+                  TripMedia.findAll({ where: { tripID: TripID } })
+                    .then((tm) => {
+                      res.status(200).json({
+                        spt: spt,
+                        tb: tb,
+                        td: td,
+                        tes: tes,
+                        tm: tm,
+                      });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
-exports.postDeleteProduct = (req, res, next) => {
+exports.patchProduct = (req, res, next) => {
+
+};
+
+exports.deleteProduct = (req, res, next) => {
   
 };
 
