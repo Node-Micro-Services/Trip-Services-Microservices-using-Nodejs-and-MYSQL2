@@ -162,61 +162,149 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.patchProduct = (req, res, next) => {
-  
+  const TripID = req.body.tripId;
+  console.log(chalk.blueBright.inverse(TripID));
 };
 
 exports.deleteProduct = (req, res, next) => {
+  const TripID = req.body.tripId;
+  var Errors = []
+  async function start(){
 
+    await ServiceProviderTrip.destroy({
+      where:{
+        tripID: TripID
+      }
+    }).then(res =>{
+      
+    }).catch(err=>{
+      Errors.push(err)
+      
+    })
+    await TripBrochure.destroy({
+      where:{
+        tripID: TripID
+      }
+    }).then(res =>{
+      
+    }).catch(err=>{
+      Errors.push(err)
+      
+    })
+    await TripDetails.destroy({
+      where:{
+        tripID: TripID
+      }
+    }).then(res =>{
+      
+    }).catch(err=>{
+      Errors.push(err)
+      
+    })
+    await TripExtraServices.destroy({
+      where:{
+        tripID: TripID
+      }
+    }).then(res =>{
+      
+    }).catch(err=>{
+      Errors.push(err)
+      
+    })
+    await TripMedia.destroy({
+      where:{
+        tripID: TripID
+      }
+    }).then(res =>{
+      
+    }).catch(err=>{
+      Errors.push(err)
+      
+    })
+  }
+  start()
+  res.status(200).json({
+    "result": Errors
+  })
+
+  // ServiceProviderTrip.findOne({where: {tripID: TripID}})
+  //   .then((result01) => {
+  //     return result01.destroy();
+  //   })
+  //   .then((result) => {
+  //     //Todo: for other tables
+
+  //     TripBrochure.destroy({where: {tripID: TripID}})
+  //       .then((result02) => {
+  //         return result02.destroy();
+  //       })
+  //       .then((result) => {
+  //         //Todo: for other tables
+  //         TripDetails.findOne({where: {tripID: TripID}})
+  //           .then((result03) => {
+  //             return result03.destroy();
+  //           })
+  //           .then((result) => {
+  //             //Todo: for other tables
+  //             TripExtraServices.findByPk(TripID)
+  //               .then((result04) => {
+  //                 return result04.destroy();
+  //               })
+  //               .then((result) => {
+  //                 //Todo: for other tables
+  //                 TripMedia.findByPk(TripID)
+  //                   .then((result05) => {
+  //                     return result05.destroy();
+                      
+  //                   })
+  //                   .then((result) => {
+  //                     console.log('Done ALL')
+  //                     res.status(200).json({
+  //                       "result": "Successful"
+  //                     })
+  //                   })
+  //                   .catch(error=>{
+  //                     console.log('Error in tm')
+  //                     res.status(200).json({
+  //                       "result": "Error in tm "
+  //                     })
+  //                   });
+  //               })
+  //               .catch(error=>{
+  //                 console.log('Error in tes')
+  //                 res.status(200).json({
+  //                   "result": "Error in tes"
+  //                 })
+  //               });
+  //           })
+  //           .catch(error=>{
+  //             console.log(chalk.red.inverse.bold("Staring Error"))
+  //             console.log(error)
+  //             res.status(200).json({
+  //               "result": "Error in td"
+  //             })
+  //           });
+  //       })
+  //       .catch(error=>{
+  //         console.log('Error in tb')
+  //         res.status(200).json({
+  //           "result": "Error in tb"
+  //         })
+  //       });
+  //   })
+  //   .catch(error=>{
+  //     console.log('Error in spt')
+  //     res.status(200).json({
+  //       "result": "Error in spt"
+  //     })
+  //   });
 };
 
-//   exports.getEditProduct = (req, res, next) => {
-//     const editMode = req.query.edit;
-//     if (!editMode) {
-//       return res.redirect('/');
-//     }
-//     const prodId = req.params.productId;
-//     Product.findById(prodId, product => {
-//       if (!product) {
-//         return res.redirect('/');
-//       }
-//       res.render('admin/edit-product', {
-//         pageTitle: 'Edit Product',
-//         path: '/admin/edit-product',
-//         editing: editMode,
-//         product: product
-//       });
-//     });
-//   };
+exports.patchProduct = (req, res, next) => {
+  
+  const TripID = req.body.tripId;
+  var Errors = []
 
-//   exports.postEditProduct = (req, res, next) => {
-//     const prodId = req.body.productId;
-//     const updatedTitle = req.body.title;
-//     const updatedPrice = req.body.price;
-//     const updatedImageUrl = req.body.imageUrl;
-//     const updatedDesc = req.body.description;
-//     const updatedProduct = new Product(
-//       prodId,
-//       updatedTitle,
-//       updatedImageUrl,
-//       updatedDesc,
-//       updatedPrice
-//     );
-//     updatedProduct.save();
-//     res.redirect('/admin/products');
-//   };
+  
 
-//   exports.getProducts = (req, res, next) => {
-//     Product.fetchAll(products => {
-//       res.render('admin/products', {
-//         prods: products,
-//         pageTitle: 'Admin Products',
-//         path: '/admin/products'
-//       });
-//     });
-//   };
-
-//   exports.postDeleteProduct = (req, res, next) => {
-//     const prodId = req.body.productId;
-//     Product.deleteById(prodId);
-//     res.redirect('/admin/products');
-//   };
+};

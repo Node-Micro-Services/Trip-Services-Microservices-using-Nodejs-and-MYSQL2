@@ -2,11 +2,10 @@ const Sequelize = require("sequelize").Sequelize;
 
 const sequelize = require("../util/database");
 
-const TripDeails = sequelize.define("tripdetails", {
+const TripDetails = sequelize.define("tripdetails", {
   tripID: {
     type: Sequelize.INTEGER,
     allowNull: false,
-    primaryKey: true,
   },
   tripDaysNum: {
     type: Sequelize.INTEGER,
@@ -30,4 +29,4 @@ const TripDeails = sequelize.define("tripdetails", {
   },
 });
 
-module.exports = TripDeails;
+module.exports = TripDetails;
