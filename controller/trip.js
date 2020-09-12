@@ -318,24 +318,9 @@ exports.patchProduct = (req, res, next) => {
       }
     );
     
-    //TODO: TripBrochure cant be editted... 
-    await ServiceProviderTrip.update(
-      { userId: req.body.userId, locationId: req.body.locationId },
-      {
-        where: {
-          tripID: req.body.tripID,
-        },
-      }
-    );
-    await ServiceProviderTrip.update(
-      { userId: req.body.userId, locationId: req.body.locationId },
-      {
-        where: {
-          tripID: req.body.tripID,
-        },
-      }
-    );
+    //TODO: Others cant be editted... 
   }
+  
   start();
   res.status(200).json({
     result: "working",
