@@ -317,7 +317,6 @@ exports.patchProduct = (req, res, next) => {
         },
       }
     );
-    
     //TODO: Others cant be editted... 
   }
   
