@@ -133,11 +133,11 @@ exports.getProduct = (req, res, next) => {
                   TripMedia.findAll({ where: { tripID: TripID } })
                     .then((tm) => {
                       res.status(200).json({
-                        spt: spt,
-                        tb: tb,
-                        td: td,
-                        tes: tes,
-                        tm: tm,
+                        serviceProviderTrip: spt,
+                        tripBrochure: tb,
+                        tripDetails: td,
+                        tripExtraServices: tes,
+                        tripMedia: tm,
                       });
                     })
                     .catch((error) => {
@@ -161,71 +161,60 @@ exports.getProduct = (req, res, next) => {
     });
 };
 
-exports.patchProduct = (req, res, next) => {
-  const TripID = req.body.tripId;
-  console.log(chalk.blueBright.inverse(TripID));
-};
-
 exports.deleteProduct = (req, res, next) => {
   const TripID = req.body.tripId;
-  var Errors = []
-  async function start(){
-
+  var Errors = [];
+  async function start() {
     await ServiceProviderTrip.destroy({
-      where:{
-        tripID: TripID
-      }
-    }).then(res =>{
-      
-    }).catch(err=>{
-      Errors.push(err)
-      
+      where: {
+        tripID: TripID,
+      },
     })
+      .then((res) => {})
+      .catch((err) => {
+        Errors.push(err);
+      });
     await TripBrochure.destroy({
-      where:{
-        tripID: TripID
-      }
-    }).then(res =>{
-      
-    }).catch(err=>{
-      Errors.push(err)
-      
+      where: {
+        tripID: TripID,
+      },
     })
+      .then((res) => {})
+      .catch((err) => {
+        Errors.push(err);
+      });
     await TripDetails.destroy({
-      where:{
-        tripID: TripID
-      }
-    }).then(res =>{
-      
-    }).catch(err=>{
-      Errors.push(err)
-      
+      where: {
+        tripID: TripID,
+      },
     })
+      .then((res) => {})
+      .catch((err) => {
+        Errors.push(err);
+      });
     await TripExtraServices.destroy({
-      where:{
-        tripID: TripID
-      }
-    }).then(res =>{
-      
-    }).catch(err=>{
-      Errors.push(err)
-      
+      where: {
+        tripID: TripID,
+      },
     })
+      .then((res) => {})
+      .catch((err) => {
+        Errors.push(err);
+      });
     await TripMedia.destroy({
-      where:{
-        tripID: TripID
-      }
-    }).then(res =>{
-      
-    }).catch(err=>{
-      Errors.push(err)
-      
+      where: {
+        tripID: TripID,
+      },
     })
+      .then((res) => {})
+      .catch((err) => {
+        Errors.push(err);
+      });
   }
-  start()
+  start();
   res.status(200).json({
-    "result": Errors
-  })
+    result: Errors,
+  });
 
   // ServiceProviderTrip.findOne({where: {tripID: TripID}})
   //   .then((result01) => {
@@ -255,7 +244,7 @@ exports.deleteProduct = (req, res, next) => {
   //                 TripMedia.findByPk(TripID)
   //                   .then((result05) => {
   //                     return result05.destroy();
-                      
+
   //                   })
   //                   .then((result) => {
   //                     console.log('Done ALL')
@@ -301,10 +290,54 @@ exports.deleteProduct = (req, res, next) => {
 };
 
 exports.patchProduct = (req, res, next) => {
-  
   const TripID = req.body.tripId;
-  var Errors = []
+  var Errors = [];
 
-  
-
+  async function start() {
+    await ServiceProviderTrip.update(
+      { userId: req.body.userId, locationId: req.body.locationId },
+      {
+        where: {
+          tripID: req.body.tripID,
+        },
+      }
+    );
+    await TripDetails.update(
+      {
+        tripServiceID: req.body.trip.tripServiceID,
+        tripNightsNum: req.body.trip.tripNightsNum,
+        tripDaysNum: req.body.trip.tripDaysNum,
+        description: req.body.trip.description,
+        tripServiceID: req.body.trip.tripServiceID,
+        subject: req.body.trip.subject
+      },
+      {
+        where: {
+          tripID: req.body.tripID,
+        },
+      }
+    );
+    
+    //TODO: TripBrochure cant be editted... 
+    await ServiceProviderTrip.update(
+      { userId: req.body.userId, locationId: req.body.locationId },
+      {
+        where: {
+          tripID: req.body.tripID,
+        },
+      }
+    );
+    await ServiceProviderTrip.update(
+      { userId: req.body.userId, locationId: req.body.locationId },
+      {
+        where: {
+          tripID: req.body.tripID,
+        },
+      }
+    );
+  }
+  start();
+  res.status(200).json({
+    result: "working",
+  });
 };

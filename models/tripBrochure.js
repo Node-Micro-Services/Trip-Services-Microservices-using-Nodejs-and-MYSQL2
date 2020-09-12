@@ -1,22 +1,28 @@
-const Sequelize = require('sequelize').Sequelize
+const Sequelize = require("sequelize").Sequelize;
 
-const sequelize = require('../util/database')
+const sequelize = require("../util/database");
 
-const TripBrochure = sequelize.define('tripbrochure', {
-    brochureID:{
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        primaryKey: true,
-        autoIncrement: true
+const TripBrochure = sequelize.define(
+  "tripbrochure",
+  {
+    brochureID: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
     },
     tripID: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+      type: Sequelize.INTEGER,
+      allowNull: false,
     },
     brochureURL: {
-        type: Sequelize.STRING,
-        allowNull: false
-    }
-})
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+  },
+  {
+    timestamps: false,
+  }
+);
 
-module.exports = TripBrochure
+module.exports = TripBrochure;
