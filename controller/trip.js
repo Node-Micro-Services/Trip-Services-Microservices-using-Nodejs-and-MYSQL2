@@ -8,6 +8,73 @@ const TripMedia = require("../models/tripMedia");
 
 var ERROR = [];
 
+exports.getProductParam = (req, res, next) =>{
+  const user_id = req.params.id
+  if (user_id.toString().match(/^[0-9]+$/)){
+    const TripID = user_id;
+  console.log(chalk.blueBright.inverse(TripID));
+
+  // const ResultSPT = async function start(){
+  //   await ServiceProviderTrip.findAll({ where: { tripID: TripID } })
+  // }
+
+  ServiceProviderTrip.findOne({ where: { tripID: TripID } })
+    .then((spt) => {
+      TripBrochure.findAll({ where: { tripID: TripID } })
+        .then((tb) => {
+          TripDetails.findAll({ where: { tripID: TripID } })
+            .then((td) => {
+              TripExtraServices.findAll({ where: { tripID: TripID } })
+                .then((tes) => {
+                  TripMedia.findAll({ where: { tripID: TripID } })
+                    .then((tm) => {
+                      res.status(200).json({
+                        serviceProviderTrip: spt,
+                        tripBrochure: tb,
+                        tripDetails: td,
+                        tripExtraServices: tes,
+                        tripMedia: tm,
+                      });
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+  else{
+    const UserID = user_id
+    ServiceProviderTrip.findAll({where: {userId: UserID}})
+    .then((ress)=>{
+      res.status(200).json({
+        result: ress
+      })
+    })
+    .catch((error) =>{
+      console.log(chalk.red.inverse(error))
+      res.status(500).json({
+        result: error
+      })
+    })
+    
+  }
+  
+}
+
 exports.postAddProduct = (req, res, next) => {
   ServiceProviderTrip.create({
     userId: req.body.userId,
@@ -213,7 +280,8 @@ exports.deleteProduct = (req, res, next) => {
   }
   start();
   res.status(200).json({
-    result: Errors,
+    "status_code": "200",
+    "result": Errors,
   });
 
   // ServiceProviderTrip.findOne({where: {tripID: TripID}})

@@ -13,14 +13,11 @@ const router = express.Router();
 // router.get('/products', tripController.getProducts);
 
 // /trip/ => POST
-router.post("/", tripController.postAddProduct);
+router.get('/:id', tripController.getProductParam);
 router.get("/", tripController.getProduct);
+router.post("/", tripController.postAddProduct);
 router.patch("/", tripController.patchProduct);
 router.delete("/", tripController.deleteProduct);
-// router.get('/edit-product/:productId', tripController.getEditProduct);
 
-// router.post('/edit-product', tripController.postEditProduct);
-
-// router.post('/delete-product', tripController.postDeleteProduct);
 
 module.exports = router;

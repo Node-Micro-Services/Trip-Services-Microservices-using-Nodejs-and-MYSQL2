@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 // const sequelize = new Sequelize(
+//   // ${DBNAME:localhost}
 //   process.argv[2] || process.env.DBNAME,
 //   process.argv[3] || process.env.USERNAME,
 //   process.argv[4] || process.env.PASSWORD,

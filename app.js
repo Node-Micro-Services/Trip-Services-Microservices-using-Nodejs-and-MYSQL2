@@ -6,6 +6,7 @@ const chalk = require('chalk')
 
 const sequelize = require("./util/database");
 const tripRoute = require("./routes/trip");
+const tripController = require("./controller/trip")
 
 const ServiceProviderTrip = require("./models/serviceProviderTrip");
 const TripBrochure = require("./models/tripBrochure");
@@ -18,7 +19,7 @@ const app = express();
 app.use(bodyParser.json());
 
 app.get('/', (req, res)=> {
-  res.send('Working Trip Services')
+  res.send('<H1>Working Trip Services</H1>')
 })
 
 app.use("/trips", tripRoute);
