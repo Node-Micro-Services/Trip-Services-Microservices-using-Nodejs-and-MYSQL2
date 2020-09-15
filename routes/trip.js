@@ -3,7 +3,6 @@ const path = require("path");
 const express = require("express");
 
 const tripController = require("../controller/trip");
-const { get } = require("request");
 
 const router = express.Router();
 

@@ -29,7 +29,7 @@ exports.postAddProduct = (req, res, next) => {
   ServiceProviderTrip.create({
     userId: req.body.userId,
     locationId: req.body.locationId,
-    locationName: req.body.locationName
+    locationName: req.body.locationName,
   })
     .then((result) => {
       const TripID = result.dataValues.tripID;
@@ -101,7 +101,7 @@ exports.postAddProduct = (req, res, next) => {
       for (var obj in req.body.category) {
         TripCategory.create({
           tripID: TripID,
-          categoryName: req.body.category[obj].categoryName
+          categoryName: req.body.category[obj].categoryName,
         })
           .then((result) => {
             //do something for the result
@@ -147,13 +147,10 @@ exports.postAddProduct = (req, res, next) => {
   //extraServices code here ...
 };
 
+//Completed
 exports.getProduct = (req, res, next) => {
   const TripID = req.params.id;
   console.log(chalk.blueBright.inverse(TripID));
-
-  // const ResultSPT = async function start(){
-  //   await ServiceProviderTrip.findAll({ where: { tripID: TripID } })
-  // }
 
   ServiceProviderTrip.findOne({ where: { tripID: TripID } })
     .then((spt) => {
@@ -165,12 +162,19 @@ exports.getProduct = (req, res, next) => {
                 .then((tes) => {
                   TripMedia.findAll({ where: { tripID: TripID } })
                     .then((tm) => {
-                      res.status(200).json({
-                        serviceProviderTrip: spt,
-                        tripBrochure: tb,
-                        tripDetails: td,
-                        tripExtraServices: tes,
-                        tripMedia: tm,
+                      TripCategory.findAll({ where: { tripID: TripID } })
+                      .then((tc) => {
+                        res.status(200).json({
+                          serviceProviderTrip: spt,
+                          tripBrochure: tb,
+                          tripDetails: td,
+                          tripExtraServices: tes,
+                          tripMedia: tm,
+                          tripCategory: tc,
+                        });
+                      })
+                      .catch((error) => {
+                        console.log(error);
                       });
                     })
                     .catch((error) => {
