@@ -19,6 +19,10 @@ const ServiceProviderTrip = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
+    locationName: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
   },
   {
     timestamps: false,

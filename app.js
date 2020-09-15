@@ -6,13 +6,13 @@ const chalk = require('chalk')
 
 const sequelize = require("./util/database");
 const tripRoute = require("./routes/trip");
-const tripController = require("./controller/trip")
 
 const ServiceProviderTrip = require("./models/serviceProviderTrip");
 const TripBrochure = require("./models/tripBrochure");
 const TripDetails = require("./models/tripdetails");
 const TripMedia = require("./models/tripMedia");
 const TripExtraServices = require("./models/tripExtraServices");
+const TripCategories = require("./models/tripCategory");
 
 const app = express();
 
@@ -28,10 +28,11 @@ ServiceProviderTrip.hasMany(TripDetails, { foreignKey: "tripID" });
 ServiceProviderTrip.hasMany(TripBrochure, { foreignKey: "tripID" });
 ServiceProviderTrip.hasMany(TripMedia, { foreignKey: "tripID" });
 ServiceProviderTrip.hasMany(TripExtraServices, { foreignKey: "tripID" });
+ServiceProviderTrip.hasMany(TripCategories, { foreignKey: "tripID" });
 
 sequelize
   // .sync({force: true})  ---> to overwrite the tables better say format all...
-  .sync()
+  .sync({force: true})
   .then((result) => {
     // console.log(result);
     app.listen(8080, () => {

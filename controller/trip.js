@@ -5,80 +5,30 @@ const TripBrochure = require("../models/tripBrochure");
 const ServiceProviderTrip = require("../models/serviceProviderTrip");
 const TripExtraServices = require("../models/tripExtraServices");
 const TripMedia = require("../models/tripMedia");
-
+const TripCategory = require("../models/tripCategory");
 var ERROR = [];
 
-exports.getProductParam = (req, res, next) =>{
-  const user_id = req.params.id
-  if (user_id.toString().match(/^[0-9]+$/)){
-    const TripID = user_id;
-  console.log(chalk.blueBright.inverse(TripID));
-
-  // const ResultSPT = async function start(){
-  //   await ServiceProviderTrip.findAll({ where: { tripID: TripID } })
-  // }
-
-  ServiceProviderTrip.findOne({ where: { tripID: TripID } })
-    .then((spt) => {
-      TripBrochure.findAll({ where: { tripID: TripID } })
-        .then((tb) => {
-          TripDetails.findAll({ where: { tripID: TripID } })
-            .then((td) => {
-              TripExtraServices.findAll({ where: { tripID: TripID } })
-                .then((tes) => {
-                  TripMedia.findAll({ where: { tripID: TripID } })
-                    .then((tm) => {
-                      res.status(200).json({
-                        serviceProviderTrip: spt,
-                        tripBrochure: tb,
-                        tripDetails: td,
-                        tripExtraServices: tes,
-                        tripMedia: tm,
-                      });
-                    })
-                    .catch((error) => {
-                      console.log(error);
-                    });
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+exports.getProductParam = (req, res, next) => {
+  const UserID = req.params.id;
+  ServiceProviderTrip.findAll({ where: { userId: UserID } })
+    .then((ress) => {
+      res.status(200).json({
+        result: ress,
+      });
     })
     .catch((error) => {
-      console.log(error);
-    });
-  }
-  else{
-    const UserID = user_id
-    ServiceProviderTrip.findAll({where: {userId: UserID}})
-    .then((ress)=>{
-      res.status(200).json({
-        result: ress
-      })
-    })
-    .catch((error) =>{
-      console.log(chalk.red.inverse(error))
+      console.log(chalk.red.inverse(error));
       res.status(500).json({
-        result: error
-      })
-    })
-    
-  }
-  
-}
+        result: error,
+      });
+    });
+};
 
 exports.postAddProduct = (req, res, next) => {
   ServiceProviderTrip.create({
     userId: req.body.userId,
     locationId: req.body.locationId,
+    locationName: req.body.locationName
   })
     .then((result) => {
       const TripID = result.dataValues.tripID;
@@ -147,6 +97,21 @@ exports.postAddProduct = (req, res, next) => {
           });
       }
 
+      for (var obj in req.body.category) {
+        TripCategory.create({
+          tripID: TripID,
+          categoryName: req.body.category[obj].categoryName
+        })
+          .then((result) => {
+            //do something for the result
+            console.log(chalk.green.inverse("Trip Category"));
+          })
+          .catch((error) => {
+            //do somethings for the error
+            ERROR.push(String(error));
+          });
+      }
+
       res.status(200).json({
         "Trip Service Response Payload": {
           status: 201,
@@ -182,7 +147,7 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProduct = (req, res, next) => {
-  const TripID = req.body.tripId;
+  const TripID = req.params.id;
   console.log(chalk.blueBright.inverse(TripID));
 
   // const ResultSPT = async function start(){
@@ -280,10 +245,9 @@ exports.deleteProduct = (req, res, next) => {
   }
   start();
   res.status(200).json({
-    "status_code": "200",
-    "result": Errors,
+    status_code: "200",
+    result: Errors,
   });
-
 };
 
 exports.patchProduct = (req, res, next) => {
@@ -306,7 +270,7 @@ exports.patchProduct = (req, res, next) => {
         tripDaysNum: req.body.trip.tripDaysNum,
         description: req.body.trip.description,
         tripServiceID: req.body.trip.tripServiceID,
-        subject: req.body.trip.subject
+        subject: req.body.trip.subject,
       },
       {
         where: {
@@ -314,9 +278,9 @@ exports.patchProduct = (req, res, next) => {
         },
       }
     );
-    //TODO: Others cant be editted... 
+    //TODO: Others cant be editted...
   }
-  
+
   start();
   res.status(200).json({
     result: "working",

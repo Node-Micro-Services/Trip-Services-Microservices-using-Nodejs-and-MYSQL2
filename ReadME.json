@@ -1,20 +1,30 @@
- {
-    "_resquest":
-    {
-        "userId": "55UMgZqCcoMZv804AkHgtWhB95n1",
-        "locationId": "16",
-        "trip": {
-            "tripServiceId": "2131296392",
-            "subject": "Adventure in the Hills - Go Close to Nature in Igatpuri",
-            "description": "This packagFe is Ideal for weekend travellers | All major sightseeing spots included | Explore Igatpuri as you Desire",
-            "tripDays": 2,
-            "tripNights": 1
+{
+    "userId": "55UMgZqCcoMZv804AkHgtWhB95n1",
+    "locationId": "16",
+    "locationName": "Shimla",
+    "category": [
+        {
+            "categoryName": "sampleCategoryname"
         },
-        "brochure": [
-            "myImage1598598481",
-            "myImage1598598482"
-        ],
-        "media": [
+        {
+            "categoryName": "sampleCategoryname2"
+        },
+        {
+            "categoryName": "sampleCategoryname3"
+        }
+    ],
+    "trip": {
+        "tripServiceId": "2131296392",
+        "subject": "Adventure in the Hills - Go Close to Nature in Igatpuri",
+        "description": "This packagFe is Ideal for weekend travellers | All major sightseeing spots included | Explore Igatpuri as you Desire",
+        "tripDays": 2,
+        "tripNights": 1
+    },
+    "brochure": [
+        "myImage1598598481",
+        "myImage1598598482"
+    ],
+    "media": [
         {
             "mediaURL": "myImage1598598484",
             "isImage": true,
@@ -29,21 +39,10 @@
             "mediaURL": "myImage1598598485",
             "isImage": true
         }
-        ],
-        "extraServices": [
-            "2131296399",
-            "2131296390",
-            "2131296395"
-        ]
-    },
-    "_respond":
-    {
-        "Trip Service Response Payload": {
-            "status": 201,
-            "data": {
-                "tripId": 45345
-            },
-            "error": []
-        }
-    }
+    ],
+    "extraServices": [
+        "2131296399",
+        "2131296390",
+        "2131296395"
+    ]
 }
