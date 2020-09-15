@@ -32,7 +32,7 @@ ServiceProviderTrip.hasMany(TripCategories, { foreignKey: "tripID" });
 
 sequelize
   // .sync({force: true})  ---> to overwrite the tables better say format all...
-  .sync({force: true})
+  .sync()
   .then((result) => {
     // console.log(result);
     app.listen(8080, () => {

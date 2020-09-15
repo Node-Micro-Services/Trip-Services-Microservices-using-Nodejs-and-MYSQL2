@@ -24,6 +24,7 @@ exports.getProductParam = (req, res, next) => {
     });
 };
 
+//Completed
 exports.postAddProduct = (req, res, next) => {
   ServiceProviderTrip.create({
     userId: req.body.userId,
@@ -193,6 +194,7 @@ exports.getProduct = (req, res, next) => {
     });
 };
 
+//Completed
 exports.deleteProduct = (req, res, next) => {
   const TripID = req.body.tripId;
   var Errors = [];
@@ -242,10 +244,18 @@ exports.deleteProduct = (req, res, next) => {
       .catch((err) => {
         Errors.push(err);
       });
+    await TripCategory.destroy({
+      where: {
+        tripID: TripID,
+      },
+    })
+      .then((res) => {})
+      .catch((err) => {
+        Errors.push(err);
+      });
   }
   start();
   res.status(200).json({
-    status_code: "200",
     result: Errors,
   });
 };
