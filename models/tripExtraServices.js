@@ -9,8 +9,8 @@ const TripExtraService = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    mediaURL: {
-      type: Sequelize.STRING,
+    serviceID: {
+      type: Sequelize.INTEGER,
       allowNull: false,
     },
   },
