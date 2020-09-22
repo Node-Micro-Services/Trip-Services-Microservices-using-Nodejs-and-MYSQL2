@@ -1,4 +1,4 @@
-{
+({
     "userId": "55UMgZqCcoMZv804AkHgtWhB95n1",
     "locationId": "16",
     "locationName": "Shimla",
@@ -20,10 +20,7 @@
         "tripDays": 2,
         "tripNights": 1
     },
-    "brochure": [
-        "myImage1598598481",
-        "myImage1598598482"
-    ],
+    "brochure": ["myImage1598598481", "myImage1598598482"],
     "media": [
         {
             "mediaURL": "myImage1598598484",
@@ -40,9 +37,37 @@
             "isImage": true
         }
     ],
-    "extraServices": [
-        "2131296399",
-        "2131296390",
-        "2131296395"
-    ]
-}
+    "extraServices": ["2131296399", "2131296390", "2131296395"]
+},
+{
+    [
+        {
+            "locationId": "16",
+            "locationName": "Goa",
+            "trips": [
+                {
+                    "tripId": "3",
+                    "imageURL": "myFirstImage.jpg",
+                    "subject": "Welcome to Goa"
+                },
+                {
+                    "tripId": "7",
+                    "imageURL": "myFirstImage2.jpg",
+                    "subject": "Welcome to Goa2"
+                }
+            ]
+        },
+        {
+            "locationId": "18",
+            "locationName": "Shimla",
+            "trips": [
+                {
+                    "tripId": "9",
+                    "imageURL": "myFirstImage4.jpg",
+                    "subject": "Welcome to Shimla"
+                }
+            ]
+        }
+    ],
+    "error": []
+})

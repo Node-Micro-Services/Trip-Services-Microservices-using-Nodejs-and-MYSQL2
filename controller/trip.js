@@ -14,84 +14,114 @@ exports.getProductParam = (req, res, next) => {
     var Error = [];
     const Reply = [];
 
-    ServiceProviderTrip.findAll({ where: { userId: UserID } })
-        .then((result) => {
-            //TODO: to iterate in the result the for each result
-            const json = result;
-            let locations = new Set();
-            let dict = {};
-            for (var i = 0; i < json.length; i++) {
-                var obj = json[i];
-                var locationId = obj.locationId;
-                var locationName = obj.locationName;
-                locations.add(locationId);
-                dict[locationId] = locationName;
-            }
-            locations.forEach((location) => {
-                console.log(location, dict[location]);
+    const main = async () => {
+        await ServiceProviderTrip.findAll({ where: { userId: UserID } })
+            .then((result) => {
+                //TODO: to iterate in the result the for each result
+                const json = result;
+                let locations = new Set();
+                let dict = {};
 
-                const trips = [];
+                for (var i = 0; i < json.length; i++) {
+                    var obj = json[i];
+                    var locationId = obj.locationId;
+                    var locationName = obj.locationName;
+                    locations.add(locationId);
+                    dict[locationId] = locationName;
+                }
 
-                ServiceProviderTrip.findAll({
-                    where: { locationId: location, userId: UserID },
-                })
-                    .then((result2) => {
-                        //TODO: to get the tripid of those locationid having same
-                        const json2 = result2;
-                        for (var i = 0; i < json2.length; i++) {
-                            var obj = json2[i];
-                            var tripId = obj.tripID;
-                            trips.push(tripId);
-                        }
-                        const FinalTrips = [];
-
-                        trips.forEach((trip) => {
-                            TripMedia.findOne({ where: { tripID: trip } })
-                                .then((result3) => {
-                                    const json = result3;
-                                    const mediaurl = json.mediaURL;
-                                    TripDetails.findOne({
-                                        where: { tripID: trip },
-                                    })
-                                        .then((result4) => {
-                                            const json = result4;
-                                            const subject = json.subject;
-
-                                            const value = {
-                                                tripID: trip,
-                                                mediaURL: mediaurl,
-                                                subject: subject,
-                                            };
-
-                                            FinalTrips.push(
-                                                JSON.stringify(value)
-                                            );
-                                        })
-                                        .catch((error) => {
-                                            Error.push(error);
-                                        });
+                locations.forEach((location) => {
+                    //for each locationID we are searching now
+                    const getTrips = async () => {
+                        const trips = await ServiceProviderTrip.findAll({
+                            where: { locationId: location, userId: UserID },
+                        })
+                            .then((result2) => {
+                                //TODO: to get the tripid of those locationid having same
+                                const trips = [];
+                                const json2 = result2;
+                                for (var i = 0; i < json2.length; i++) {
+                                    var obj = json2[i];
+                                    var tripId = obj.tripID;
+                                    trips.push(tripId);
+                                }
+                                return trips;
+                            })
+                            .catch((error) => {
+                                console.log(chalk.red.inverse.bold(error));
+                            });
+                        console.log(
+                            chalk.blue.inverse.bold(location, dict[location])
+                        );
+                        console.log(chalk.yellow.inverse.bold(trips));
+                        const TripsData = [];
+                        await trips.forEach((trip) => {
+                            async function start() {
+                                const url = await TripMedia.findOne({
+                                    where: { tripID: trip },
                                 })
-                                .catch((error) => {
-                                    Error.push(error);
-                                });
-                        });
-                        console.log(chalk.blue.inverse.bold(FinalTrips));
-                        Reply.push(JSON.stringify(FinalTrips));
-                    })
-                    .catch((error) => {
-                        Error.push(error);
-                    });
-            });
-        })
-        .catch((error) => {
-            console.log(chalk.red.inverse(error));
-            Error.push(error);
-        });
+                                    .then((result3) => {
+                                        const url = result3.mediaURL;
+                                        console.log(
+                                            chalk.blue.bold.inverse(url)
+                                        );
+                                        return url;
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
 
-    res.status(200).json({
-        reply: { data: Reply },
-        errors: Error,
-    });
+                                const subject = await TripDetails.findOne({
+                                    where: { tripID: trip },
+                                })
+                                    .then((result3) => {
+                                        const subject = result3.subject;
+                                        console.log(
+                                            chalk.blue.bold.inverse(subject)
+                                        );
+                                        return subject;
+                                    })
+                                    .catch((error) => {
+                                        console.log(error);
+                                    });
+
+                                
+                                TripsData.push({
+                                    tripId: trip,
+                                    mediaURL: url,
+                                    subject: subject,
+                                });
+                                console.log(chalk.red.inverse.bold(JSON.stringify(TripsData)));
+                            }
+                            start();
+                        });
+                        console.log(chalk.red.bold.inverse(TripsData))
+                        Reply.push({
+                            "locationId":location,
+                            "locationName": dict[location],
+                            "trips": TripsData
+                        })
+                        console.log(chalk.greenBright.inverse.bold(JSON.stringify(Reply)));
+                    };
+
+                    getTrips();
+                });
+
+                res.status(200).json({
+                    reply: { data: Reply },
+                    errors: Error,
+                });
+            })
+            .catch((error) => {
+                console.log(chalk.red.inverse(error));
+                Error.push(error);
+                res.status(200).json({
+                    reply: { data: Reply },
+                    errors: Error,
+                });
+            });
+    };
+    main();
 };
 
 //Completed
@@ -345,7 +375,6 @@ exports.patchProduct = (req, res, next) => {
     var Errors = [];
 
     async function start() {
-
         await ServiceProviderTrip.update(
             {
                 userId: req.body.userId,
