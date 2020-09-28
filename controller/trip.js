@@ -14,9 +14,9 @@ exports.getProductParam = (req, res, next) => {
     var Error = [];
     const Reply = [];
 
-    const main = async () => {
-        await ServiceProviderTrip.findAll({ where: { userId: UserID } })
+    ServiceProviderTrip.findAll({ where: { userId: UserID } })
             .then((result) => {
+                
                 //TODO: to iterate in the result the for each result
                 const json = result;
                 let locations = new Set();
@@ -30,7 +30,7 @@ exports.getProductParam = (req, res, next) => {
                     dict[locationId] = locationName;
                 }
 
-                locations.forEach((location) => {
+                locations.forEach(async (location) => {
                     //for each locationID we are searching now
                     const getTrips = async () => {
                         const trips = await ServiceProviderTrip.findAll({
@@ -55,57 +55,54 @@ exports.getProductParam = (req, res, next) => {
                         );
                         console.log(chalk.yellow.inverse.bold(trips));
                         const TripsData = [];
-                        await trips.forEach((trip) => {
-                            async function start() {
-                                const url = await TripMedia.findOne({
-                                    where: { tripID: trip },
-                                })
-                                    .then((result3) => {
-                                        const url = result3.mediaURL;
-                                        console.log(
-                                            chalk.blue.bold.inverse(url)
-                                        );
-                                        return url;
-                                    })
-                                    .catch((error) => {
-                                        console.log(error);
-                                    });
 
-                                const subject = await TripDetails.findOne({
-                                    where: { tripID: trip },
+                        trips.forEach(async (trip) => {
+                            const url = TripMedia.findOne({
+                                where: { tripID: trip },
+                            })
+                                .then((result3) => {
+                                    const url = result3.mediaURL;
+                                    return url;
                                 })
-                                    .then((result3) => {
-                                        const subject = result3.subject;
-                                        console.log(
-                                            chalk.blue.bold.inverse(subject)
-                                        );
-                                        return subject;
-                                    })
-                                    .catch((error) => {
-                                        console.log(error);
-                                    });
-
-                                
-                                TripsData.push({
-                                    tripId: trip,
-                                    mediaURL: url,
-                                    subject: subject,
+                                .catch((error) => {
+                                    console.log(error);
                                 });
-                                console.log(chalk.red.inverse.bold(JSON.stringify(TripsData)));
-                            }
-                            start();
+
+                            const subject = TripDetails.findOne({
+                                where: { tripID: trip },
+                            })
+                                .then((result3) => {
+                                    const subject = result3.subject;
+                                    return subject;
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                });
+
+                            TripsData.push({
+                                tripId: trip,
+                                mediaURL: url,
+                                subject: subject,
+                            });
+
+                            console.log(
+                                chalk.yellow.inverse.bold("Trips Array")
+                            );
                         });
-                        console.log(chalk.red.bold.inverse(TripsData))
+
                         Reply.push({
-                            "locationId":location,
-                            "locationName": dict[location],
-                            "trips": TripsData
-                        })
-                        console.log(chalk.greenBright.inverse.bold(JSON.stringify(Reply)));
+                            locationId: location,
+                            locationName: dict[location],
+                            trips: TripsData,
+                        });
+                        
                     };
 
-                    getTrips();
+                    await getTrips();
+                    console.log(chalk.greenBright.inverse.bold(JSON.stringify(Reply)));
                 });
+
+                console.log(chalk.yellow.bold.inverse("SENDING REPLY"))
 
                 res.status(200).json({
                     reply: { data: Reply },
@@ -120,8 +117,7 @@ exports.getProductParam = (req, res, next) => {
                     errors: Error,
                 });
             });
-    };
-    main();
+    
 };
 
 //Completed
